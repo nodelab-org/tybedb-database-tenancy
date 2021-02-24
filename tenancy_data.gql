@@ -1,0 +1,42 @@
+#############
+#############
+# INSERT DATA
+#############
+#############
+
+#############
+# entities  #
+#############
+
+#persons
+insert $x isa person, has full-name "Lise Thorvaldsen";
+insert $x isa person, has full-name "Kirsten Hansen";
+insert $x isa person, has full-name "Boris Thomsen";
+insert $x isa person, has full-name "Sarah Bentsen";
+insert $x isa person, has full-name "Bali Grim";
+insert $x isa person, has full-name "Andreas Tollsteen";
+insert $x isa person, has full-name "Mufti Shill";
+insert $x isa person, has full-name "Hodja de Piort";
+
+# property
+insert $x isa house, has address "Joergensvej 2";
+insert $x isa house, has address "Joergensvej 4";
+insert $x isa house, has address "Mogensvej 112";
+
+#############
+# relations #
+#############
+
+# tenancies
+match $tenant1 isa person, has full-name "Kirsten Hansen"; $tenant2 isa person, has full-name "Boris Thomsen"; $landlord isa person, has full-name "Lise Thorvaldsen"; $house isa house, has address "Joergensvej 2"; insert (tenant: $tenant1, tenant: $tenant2, landlord: $landlord, rented-property:$house) isa tenancy, has starting-date "2020-01-01";
+match $tenant isa person, has full-name "Sarah Bentsen"; $landlord isa person, has full-name "Mufti Shill"; $house isa house, has address "Joergensvej 4"; insert (tenant: $tenant, landlord: $landlord, rented-property:$house) isa tenancy, has starting-date "2020-02-02";
+match $house isa house, has address  "Mogensvej 112"; $tenant1 isa person, has full-name "Bali Grim"; $landlord isa person, has full-name "Andreas Tollsteen"; insert (tenant:$tenant1, landlord:$landlord, rented-property:$house) isa tenancy, has starting-date "2019-05-01";
+
+# subtenancies
+match $subtenant1 isa person, has full-name "Hodja de Piort"; $tenancy (tenant:$tenant1, landlord:$landlord, rented-property:$rented) isa tenancy; $tenant1 has full-name "Bali Grim"; $landlord  has full-name "Andreas Tollsteen"; insert $subtenancy (sublandlord:$tenant1, subtenant:$subtenant1, main-tenancy:$tenancy) isa subtenancy, has starting-date "2020-09-01";
+
+# neighbours
+match $tenant1 isa person, has full-name "Kirsten Hansen"; $tenant2 isa person, has full-name "Sarah Bentsen"; insert (neighbour:$tenant1, neighbour:$tenant2) isa neighbours;
+
+# tenancy-dispute
+match $tenant isa person, has full-name "Sarah Bentsen"; $landlord isa person, has full-name "Mufti Shill"; $tenancy isa tenancy; insert (disputing-tenant: $tenant, disputing-landlord: $landlord, disputed-tenancy: $tenancy) isa tenancy-dispute, has starting-date "2020-05-15";

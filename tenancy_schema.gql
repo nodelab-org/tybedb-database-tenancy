@@ -1,0 +1,64 @@
+#############
+#############
+# DEFINE SCHEMA #
+#############
+#############
+
+define
+
+  person sub entity,
+    owns full-name,
+    plays tenancy:tenant,
+    plays tenancy:landlord,
+    plays subtenancy:subtenant,
+    plays subtenancy:sublandlord,
+    plays neighbours:neighbour,
+    plays tenancy-dispute:disputing-landlord,
+    plays tenancy-dispute:disputing-tenant;
+
+  house sub entity,
+    owns address,
+    plays tenancy:rented-property;
+
+  # RELATIONS
+
+  neighbours sub relation,
+    relates neighbour;
+
+  tenancy sub relation,
+    relates landlord,
+    relates tenant,
+    relates rented-property,
+    owns starting-date,
+    plays subtenancy:main-tenancy,
+    plays tenancy-dispute:disputed-tenancy;
+
+  subtenancy sub tenancy,
+    relates sublandlord as landlord,
+    relates subtenant as tenant,
+    relates main-tenancy;
+
+  dispute sub relation,
+    relates party,
+    relates disputed-subject,
+    owns starting-date,
+    abstract;
+
+  # neighbour-dispute sub dispute,
+  #   relates disputing-neighbour as party,
+  #   relates neighbours as disputed-subject;
+  #   # disputed-subject is inherited from dispute
+
+  tenancy-dispute sub dispute,
+    relates disputed-tenancy as disputed-subject,
+    relates disputing-landlord as party,
+    relates disputing-tenant as party;
+
+  full-name sub attribute,
+    value string;
+
+  address sub attribute,
+    value string;
+
+  starting-date sub attribute,
+    value string;
