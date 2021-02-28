@@ -6,15 +6,22 @@
 
 define
 
-  person sub entity,
-    owns full-name,
+  agent sub entity,
+    abstract,
+    owns name,
     plays tenancy:tenant,
     plays tenancy:landlord,
-    plays subtenancy:subtenant,
     plays subtenancy:sublandlord,
-    plays neighbours:neighbour,
+    plays neighbourship:is-neighbour,
     plays tenancy-dispute:disputing-landlord,
     plays tenancy-dispute:disputing-tenant;
+
+  person sub agent,
+    plays subtenancy:subtenant;
+
+  organisation sub agent;
+
+  corporation sub agent;
 
   house sub entity,
     owns address,
@@ -22,8 +29,8 @@ define
 
   # RELATIONS
 
-  neighbours sub relation,
-    relates neighbour;
+  neighbourship sub relation,
+    relates is-neighbour;
 
   tenancy sub relation,
     relates landlord,
@@ -46,7 +53,7 @@ define
 
   # neighbour-dispute sub dispute,
   #   relates disputing-neighbour as party,
-  #   relates neighbours as disputed-subject;
+  #   relates neighbourship as disputed-subject;
   #   # disputed-subject is inherited from dispute
 
   tenancy-dispute sub dispute,
@@ -54,7 +61,7 @@ define
     relates disputing-landlord as party,
     relates disputing-tenant as party;
 
-  full-name sub attribute,
+  name sub attribute,
     value string;
 
   address sub attribute,
