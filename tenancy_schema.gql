@@ -17,6 +17,7 @@ define
     plays tenancy-dispute:disputing-tenant;
 
   person sub agent,
+    plays birth:birthed-child,
     plays subtenancy:subtenant;
 
   organisation sub agent;
@@ -28,6 +29,9 @@ define
     plays tenancy:rented-property;
 
   # RELATIONS
+  birth sub relation,
+    owns starting-date,
+    relates birthed-child;
 
   neighbourship sub relation,
     relates is-neighbour;
@@ -68,4 +72,4 @@ define
     value string;
 
   starting-date sub attribute,
-    value string;
+    value datetime;
